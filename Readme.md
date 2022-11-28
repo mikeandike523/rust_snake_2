@@ -6,6 +6,6 @@
 
 # Setup and Run
 * clone the repo
-* double-click "setup_and_run.bat
+* double-click `setup_and_run.bat`
 
-![Screenshot](Screenshot 2022-11-28 154341.png)
+![Screenshot](/Screenshot 2022-11-28 154341.png "Screenshot")
