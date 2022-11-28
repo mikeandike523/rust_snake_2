@@ -70,9 +70,11 @@ fn update<R: Rng>(event_pump: &EventPump, appstate: &mut AppState, rng: &mut R) 
 
     next_head_position.warp(appstate.grid.rows, appstate.grid.cols);
 
+    let mut will_lose = false;
+
     for point in appstate.snake.body.iter() {
         if *point == next_head_position {
-            return false;
+            will_lose = true;
         }
     }
 
@@ -88,7 +90,7 @@ fn update<R: Rng>(event_pump: &EventPump, appstate: &mut AppState, rng: &mut R) 
 
     appstate.snake.warp(appstate.grid.rows, appstate.grid.cols);
 
-    true
+    !will_lose
 }
 
 fn render(canvas: &mut WindowCanvas, appstate: &mut AppState) {
@@ -138,13 +140,13 @@ pub fn run() -> Result<(), String> {
 
         let has_not_lost_yet = update(&event_pump, &mut appstate, &mut rng);
 
+        // Render
+        render(&mut canvas, &mut appstate);
+
         if !has_not_lost_yet {
             println!("You lose. Score: {}", appstate.score);
             return Ok(());
         }
-
-        // Render
-        render(&mut canvas, &mut appstate);
 
         // Time management!
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / FPS));
